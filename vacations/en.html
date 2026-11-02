@@ -45,7 +45,12 @@ nav.tabs a[data-dest="rhodes"].active { color: var(--rhodes); border-color: var(
 nav.tabs a[data-dest="athens"].active { color: var(--athens); border-color: var(--athens); }
 nav.tabs a[data-dest="favorites"].active { color: var(--fav); border-color: var(--fav); }
 nav.tabs a.active { color: var(--ink); }
-.view-toggle { margin-inline-start: auto; display: flex; align-items: center; gap: 8px; padding: 8px 4px 10px; font-weight: 600; color: var(--muted); cursor: pointer; user-select: none; }
+.nights-switch { margin-inline-start: auto; display: inline-flex; align-self: center; border: 1px solid var(--line); border-radius: 999px; padding: 2px; background: var(--surface); margin-bottom: 4px; }
+.nights-switch button { font: inherit; font-size: 14px; font-weight: 600; color: var(--muted); background: none; border: 0; border-radius: 999px; padding: 5px 14px; cursor: pointer; }
+.nights-switch button[aria-checked="true"] { background: var(--accent); color: var(--accent-ink); }
+.nights-block { display: none; }
+body.nights-4 .nights-block[data-nights="4"], body.nights-6 .nights-block[data-nights="6"] { display: block; }
+.view-toggle { margin-inline-start: 16px; display: flex; align-items: center; gap: 8px; padding: 8px 4px 10px; font-weight: 600; color: var(--muted); cursor: pointer; user-select: none; }
 .view-toggle input { appearance: none; width: 36px; height: 20px; border-radius: 999px; background: var(--line); position: relative; cursor: pointer; margin: 0; transition: background .15s; }
 .view-toggle input::after { content: ''; position: absolute; top: 2px; inset-inline-start: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--surface); box-shadow: 0 1px 2px rgba(0,0,0,.25); transition: transform .15s; }
 .view-toggle input:checked { background: var(--accent); }
@@ -131,6 +136,7 @@ footer p { margin: 0 0 8px; }
 @media print {
   :root { --bg: #ffffff; --surface: #ffffff; --surface-2: #eef1ec; --ink: #16202b; --muted: #55606b; --line: #cfd5cc; --shadow: none; }
   .no-print, nav.tabs, .hidden-bar, details.dates { display: none !important; }
+  .nights-block { display: block !important; }
   .panel { display: block; break-before: page; }
   .panel:first-of-type { break-before: auto; }
   .panel[data-dest="favorites"] { display: none; }
@@ -164,6 +170,9 @@ footer p { margin: 0 0 8px; }
 <nav class="tabs" aria-label="Destinations">
   <a href="#crete" data-dest="crete">Crete</a><a href="#rhodes" data-dest="rhodes">Rhodes</a><a href="#athens" data-dest="athens">Athens</a>
   <a href="#favorites" data-dest="favorites">★ Favorites<span class="count" hidden>0</span></a>
+  <div class="nights-switch" role="radiogroup" aria-label="Dates & flights">
+    <button type="button" role="radio" aria-checked="false" data-nights="4">4 nights</button><button type="button" role="radio" aria-checked="false" data-nights="6">6 nights</button>
+  </div>
   <label class="view-toggle" title="Short bullets only, for a first glance. Switch off for the full details."><input type="checkbox" id="simple-view"> <span>Simple view</span></label>
 </nav>
 <main>
@@ -178,7 +187,7 @@ footer p { margin: 0 0 8px; }
       <div><h3>Kids: out of the hotel</h3><ul class="mini "><li>Cretaquarium (Gournes) – Large Mediterranean aquarium, 15 min from Hersonissos</li><li>Dinosauria Park (Gournes) – Animatronic dinosaur park next to the aquarium</li><li>Acqua Plus water park (Hersonissos) – Big slide park in the hills above Hersonissos</li><li>Watercity (Anopolis) – Water park between Heraklion and Hersonissos</li><li>Labyrinth Park (Hersonissos) – Minotaur-themed maze and activity park</li><li>Aquaworld (Hersonissos) – Small reptile and marine rescue aquarium</li></ul></div>
     </div>
   </div>
-  <h3 class="nights" id="crete-4n">4 nights <span class="muted">· 5 picks</span></h3><div class="scroller"><table data-dest="crete" data-nights="4">
+  <div class="nights-block" data-nights="4"><h3 class="nights" id="crete-4n">4 nights <span class="muted">· 5 picks</span></h3><div class="scroller"><table data-dest="crete" data-nights="4">
   <thead><tr>
     <th class="col-hotel">Hotel</th><th class="col-dates">Dates & flights</th><th class="col-room">Room & board</th><th class="col-package">Package</th><th class="col-kids">For the kids at the hotel</th><th class="col-adults">Nearby for grown-ups</th><th class="col-move">Getting around</th>
   </tr></thead>
@@ -283,7 +292,7 @@ footer p { margin: 0 0 8px; }
     <td class="col-adults"><div class="v-full"><ul class="mini "><li>Knossos Palace - 13 km, 20-25 min</li><li>Heraklion Archaeological Museum, Venetian harbour and old town - 8 km, 15 min</li><li>Fodele village and El Greco museum - 19 km, 20-25 min</li><li>Agia Pelagia bay - 13 km, 15 min</li><li>Rethymno old town and Fortezza - 70 km, 55 min</li><li>Phaistos palace and Matala - 60-70 km, 1 h</li><li>Lassithi Plateau and Dikteon Cave - 65 km, 1 h 15; Spinalonga boats from Plaka - 80 km, 1 h 10</li></ul></div><div class="v-simple"><ul class="mini "><li>Knossos · 25 min</li><li>Heraklion museum &amp; old town · 15 min</li><li>Fodele, El Greco museum · 25 min</li><li>Agia Pelagia · 15 min</li><li>Rethymno · 55 min</li><li>Phaistos &amp; Matala · 60 min</li></ul></div></td>
     <td class="col-move"><div class="v-full"><ul class="mini "><li>Heraklion city bus stop directly in front of the hotel on the Ammoudara road (frequency not confirmed), about 15 min into Heraklion</li><li>taxi service and a nearby car-rental agency arranged through the hotel (extra charge), excursion desk not confirmed</li><li>Heraklion airport 10 km, 15 min.</li></ul></div><div class="v-simple"><ul class="mini "><li>City bus stop at door</li><li>Heraklion 15 min by bus</li><li>Airport 15 min</li><li>Taxi, car hire via hotel</li></ul></div></td>
   </tr></tbody></table></div>
-  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div><h3 class="nights" id="crete-6n">6 nights <span class="muted">· 5 picks</span></h3><div class="scroller"><table data-dest="crete" data-nights="6">
+  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div></div><div class="nights-block" data-nights="6"><h3 class="nights" id="crete-6n">6 nights <span class="muted">· 5 picks</span></h3><div class="scroller"><table data-dest="crete" data-nights="6">
   <thead><tr>
     <th class="col-hotel">Hotel</th><th class="col-dates">Dates & flights</th><th class="col-room">Room & board</th><th class="col-package">Package</th><th class="col-kids">For the kids at the hotel</th><th class="col-adults">Nearby for grown-ups</th><th class="col-move">Getting around</th>
   </tr></thead>
@@ -388,7 +397,7 @@ footer p { margin: 0 0 8px; }
     <td class="col-adults"><div class="v-full"><ul class="mini "><li>Knossos Palace - 13 km, 20-25 min</li><li>Heraklion Archaeological Museum, Venetian harbour and old town - 8 km, 15 min</li><li>Fodele village and El Greco museum - 19 km, 20-25 min</li><li>Agia Pelagia bay - 13 km, 15 min</li><li>Rethymno old town and Fortezza - 70 km, 55 min</li><li>Phaistos palace and Matala - 60-70 km, 1 h</li><li>Lassithi Plateau and Dikteon Cave - 65 km, 1 h 15; Spinalonga boats from Plaka - 80 km, 1 h 10</li></ul></div><div class="v-simple"><ul class="mini "><li>Knossos · 25 min</li><li>Heraklion museum &amp; old town · 15 min</li><li>Fodele, El Greco museum · 25 min</li><li>Agia Pelagia · 15 min</li><li>Rethymno · 55 min</li><li>Phaistos &amp; Matala · 60 min</li></ul></div></td>
     <td class="col-move"><div class="v-full"><ul class="mini "><li>Heraklion city bus stop directly in front of the hotel on the Ammoudara road (frequency not confirmed), about 15 min into Heraklion</li><li>taxi service and a nearby car-rental agency arranged through the hotel (extra charge), excursion desk not confirmed</li><li>Heraklion airport 10 km, 15 min.</li></ul></div><div class="v-simple"><ul class="mini "><li>City bus stop at door</li><li>Heraklion 15 min by bus</li><li>Airport 15 min</li><li>Taxi, car hire via hotel</li></ul></div></td>
   </tr></tbody></table></div>
-  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div>
+  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div></div>
 </section>
 <section class="panel" id="rhodes" data-dest="rhodes">
   <div class="brief">
@@ -401,7 +410,7 @@ footer p { margin: 0 0 8px; }
       <div><h3>Kids: out of the hotel</h3><ul class="mini "><li>Faliraki Water Park – Largest water park in Greece, in Faliraki</li><li>Rhodes Aquarium (Hydrobiological Station) – Small 1930s aquarium at the tip of Rhodes Town</li><li>Valley of the Butterflies – Shaded valley with Jersey tiger moths, June-September is the season</li><li>Anthony Quinn Bay and Ladiko – Sheltered swimming coves next to Faliraki</li><li>Seven Springs – Short walk through a water tunnel to a lake</li></ul></div>
     </div>
   </div>
-  <h3 class="nights" id="rhodes-4n">4 nights <span class="muted">· 5 picks</span></h3><div class="scroller"><table data-dest="rhodes" data-nights="4">
+  <div class="nights-block" data-nights="4"><h3 class="nights" id="rhodes-4n">4 nights <span class="muted">· 5 picks</span></h3><div class="scroller"><table data-dest="rhodes" data-nights="4">
   <thead><tr>
     <th class="col-hotel">Hotel</th><th class="col-dates">Dates & flights</th><th class="col-room">Room & board</th><th class="col-package">Package</th><th class="col-kids">For the kids at the hotel</th><th class="col-adults">Nearby for grown-ups</th><th class="col-move">Getting around</th>
   </tr></thead>
@@ -506,7 +515,7 @@ footer p { margin: 0 0 8px; }
     <td class="col-adults"><div class="v-full"><ul class="mini "><li>Tsambika monastery and beach – 5.8 km, 12 min (Stegna beach 9.5 km, 15 min via Archangelos 8.2 km)</li><li>Seven Springs – 6.3 km, 10 min</li><li>Kallithea Springs – 20 km, 25 min</li><li>Lindos acropolis and village – 27 km, 35 min</li><li>Filerimos monastery and Ialyssos acropolis – 27 km, 35 min; Rhodes Old Town (Palace of the Grand Master) – 28 km, 35 min</li><li>Ancient Kamiros – 35 km, 45 min</li><li>Monolithos castle – 58 km, 1 h 20 (full day; Prasonisi 69 km, 1 h 30)</li></ul></div><div class="v-simple"><ul class="mini "><li>Tsambika · 12 min</li><li>Seven Springs · 10 min</li><li>Kallithea Springs · 25 min</li><li>Lindos · 35 min</li><li>Rhodes Old Town · 35 min</li><li>Ancient Kamiros · 45 min</li></ul></div></td>
     <td class="col-move"><div class="v-full"><ul class="mini "><li>KTEL's Kolymbia Beach line (stops K1-K18 along Eucalyptus Avenue</li><li>the nearest stop to this hotel is not confirmed, Kolymbia centre is under 1 km) runs to Rhodes Town about 14 times a day (07:45-20:15 in the October 2026 timetable, roughly hourly, about 50-60 min), 6 times to Lindos, 3 to Tsambika beach and 6 to Kallithea Springs</li><li>the main-road Kolymbia crossroads stop 3 km away has 18 Rhodes Town and 15 Lindos buses a day. Taxis and airport transfers bookable</li><li>car rental through the hotel's partner Rodos Cars and a tours-and-activities booking page</li><li>Rhodes airport 32 km, about 40 min (hotel says 25 km, 30 min</li><li>tour operators quote about 1 h)</li><li>Rhodes Town 28 km, 35 min.</li></ul></div><div class="v-simple"><ul class="mini "><li>Bus to Rhodes Town roughly hourly</li><li>Airport 40 min</li><li>Car hire via hotel partner</li><li>Rhodes Town 35 min</li></ul></div></td>
   </tr></tbody></table></div>
-  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div><h3 class="nights" id="rhodes-6n">6 nights <span class="muted">· 5 picks</span></h3><div class="scroller"><table data-dest="rhodes" data-nights="6">
+  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div></div><div class="nights-block" data-nights="6"><h3 class="nights" id="rhodes-6n">6 nights <span class="muted">· 5 picks</span></h3><div class="scroller"><table data-dest="rhodes" data-nights="6">
   <thead><tr>
     <th class="col-hotel">Hotel</th><th class="col-dates">Dates & flights</th><th class="col-room">Room & board</th><th class="col-package">Package</th><th class="col-kids">For the kids at the hotel</th><th class="col-adults">Nearby for grown-ups</th><th class="col-move">Getting around</th>
   </tr></thead>
@@ -611,7 +620,7 @@ footer p { margin: 0 0 8px; }
     <td class="col-adults"><div class="v-full"><ul class="mini "><li>Tsambika monastery and beach – 5.8 km, 12 min (Stegna beach 9.5 km, 15 min via Archangelos 8.2 km)</li><li>Seven Springs – 6.3 km, 10 min</li><li>Kallithea Springs – 20 km, 25 min</li><li>Lindos acropolis and village – 27 km, 35 min</li><li>Filerimos monastery and Ialyssos acropolis – 27 km, 35 min; Rhodes Old Town (Palace of the Grand Master) – 28 km, 35 min</li><li>Ancient Kamiros – 35 km, 45 min</li><li>Monolithos castle – 58 km, 1 h 20 (full day; Prasonisi 69 km, 1 h 30)</li></ul></div><div class="v-simple"><ul class="mini "><li>Tsambika · 12 min</li><li>Seven Springs · 10 min</li><li>Kallithea Springs · 25 min</li><li>Lindos · 35 min</li><li>Rhodes Old Town · 35 min</li><li>Ancient Kamiros · 45 min</li></ul></div></td>
     <td class="col-move"><div class="v-full"><ul class="mini "><li>KTEL's Kolymbia Beach line (stops K1-K18 along Eucalyptus Avenue</li><li>the nearest stop to this hotel is not confirmed, Kolymbia centre is under 1 km) runs to Rhodes Town about 14 times a day (07:45-20:15 in the October 2026 timetable, roughly hourly, about 50-60 min), 6 times to Lindos, 3 to Tsambika beach and 6 to Kallithea Springs</li><li>the main-road Kolymbia crossroads stop 3 km away has 18 Rhodes Town and 15 Lindos buses a day. Taxis and airport transfers bookable</li><li>car rental through the hotel's partner Rodos Cars and a tours-and-activities booking page</li><li>Rhodes airport 32 km, about 40 min (hotel says 25 km, 30 min</li><li>tour operators quote about 1 h)</li><li>Rhodes Town 28 km, 35 min.</li></ul></div><div class="v-simple"><ul class="mini "><li>Bus to Rhodes Town roughly hourly</li><li>Airport 40 min</li><li>Car hire via hotel partner</li><li>Rhodes Town 35 min</li></ul></div></td>
   </tr></tbody></table></div>
-  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div>
+  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div></div>
 </section>
 <section class="panel" id="athens" data-dest="athens">
   <div class="brief">
@@ -624,7 +633,7 @@ footer p { margin: 0 0 8px; }
       <div><h3>Kids: out of the hotel</h3><ul class="mini "><li>Attica Zoological Park (Spata) – Big zoo near the airport</li><li>Allou Fun Park – Amusement park in Rentis</li><li>Hellenic Cosmos and Tholos – Interactive history museum with VR trips to ancient Greece</li><li>Eugenides Foundation Planetarium – Digital planetarium in Palaio Faliro</li><li>Stavros Niarchos Foundation Cultural Center – Park, playgrounds, canal and free events in Kallithea</li><li>Riviera beaches (Vouliagmeni, Astir, Varkiza) – Organized beaches with shallow water</li><li>Lake Vouliagmeni – Warm thermal lake with a shallow entry</li></ul></div>
     </div>
   </div>
-  <h3 class="nights" id="athens-4n">4 nights <span class="muted">· 5 picks</span></h3><div class="scroller"><table data-dest="athens" data-nights="4">
+  <div class="nights-block" data-nights="4"><h3 class="nights" id="athens-4n">4 nights <span class="muted">· 5 picks</span></h3><div class="scroller"><table data-dest="athens" data-nights="4">
   <thead><tr>
     <th class="col-hotel">Hotel</th><th class="col-dates">Dates & flights</th><th class="col-room">Room & board</th><th class="col-package">Package</th><th class="col-kids">For the kids at the hotel</th><th class="col-adults">Nearby for grown-ups</th><th class="col-move">Getting around</th>
   </tr></thead>
@@ -729,7 +738,7 @@ footer p { margin: 0 0 8px; }
     <td class="col-adults"><div class="v-full"><ul class="mini "><li>Temple of Poseidon: ~2-3 km, 5 min by car, visible from most of the resort; no public transport, pre-book taxis (15-20 min to arrive otherwise)</li><li>Lavrio: 9 km, 15 min (archaeological and mineralogical museums, Olympic Marina, ferries to Kea); Thorikos ancient theatre 12 km</li><li>Acropolis and Acropolis Museum: 70-77 km, 1h10-1h20 by car; the KTEL Sounio bus from the main road takes about 2h to the Mavromateon terminal</li><li>Plaka, Agora and the National Archaeological Museum: the same 1h10-1h30 trip</li><li>Lake Vouliagmeni and the Vouliagmeni/Astir beaches: ~45 km, 45-50 min; Anavyssos and Legrena beaches 10-20 min</li><li>Kea (Tzia) island day trip: 1h ferry from Lavrio</li></ul></div><div class="v-simple"><ul class="mini "><li>Temple of Poseidon · 5 min</li><li>Lavrio · 15 min</li><li>Acropolis · 75 min</li><li>Plaka · 80 min</li><li>Lake Vouliagmeni · 45 min</li><li>Kea island · 60 min ferry</li></ul></div></td>
     <td class="col-move"><div class="v-full"><ul class="mini "><li>No public transport at the resort (the official FAQ says so)</li><li>airport 45 km, 40-50 min by taxi (~EUR 60-70) or private transfer</li><li>taxi to the Acropolis 1h10-1h20, ~EUR 90-110 each way</li><li>the KTEL Sounio bus passes on the main road (~2h to Athens)</li><li>a rental car is needed for anything beyond the temple and Lavrio.</li></ul></div><div class="v-simple"><ul class="mini "><li>No public transport</li><li>Airport 45 min by taxi</li><li>Taxi to Acropolis 75 min</li><li>Rental car needed</li></ul></div></td>
   </tr></tbody></table></div>
-  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div><h3 class="nights" id="athens-6n">6 nights <span class="muted">· 5 picks</span></h3><div class="scroller"><table data-dest="athens" data-nights="6">
+  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div></div><div class="nights-block" data-nights="6"><h3 class="nights" id="athens-6n">6 nights <span class="muted">· 5 picks</span></h3><div class="scroller"><table data-dest="athens" data-nights="6">
   <thead><tr>
     <th class="col-hotel">Hotel</th><th class="col-dates">Dates & flights</th><th class="col-room">Room & board</th><th class="col-package">Package</th><th class="col-kids">For the kids at the hotel</th><th class="col-adults">Nearby for grown-ups</th><th class="col-move">Getting around</th>
   </tr></thead>
@@ -834,7 +843,7 @@ footer p { margin: 0 0 8px; }
     <td class="col-adults"><div class="v-full"><ul class="mini "><li>Temple of Poseidon: ~2-3 km, 5 min by car, visible from most of the resort; no public transport, pre-book taxis (15-20 min to arrive otherwise)</li><li>Lavrio: 9 km, 15 min (archaeological and mineralogical museums, Olympic Marina, ferries to Kea); Thorikos ancient theatre 12 km</li><li>Acropolis and Acropolis Museum: 70-77 km, 1h10-1h20 by car; the KTEL Sounio bus from the main road takes about 2h to the Mavromateon terminal</li><li>Plaka, Agora and the National Archaeological Museum: the same 1h10-1h30 trip</li><li>Lake Vouliagmeni and the Vouliagmeni/Astir beaches: ~45 km, 45-50 min; Anavyssos and Legrena beaches 10-20 min</li><li>Kea (Tzia) island day trip: 1h ferry from Lavrio</li></ul></div><div class="v-simple"><ul class="mini "><li>Temple of Poseidon · 5 min</li><li>Lavrio · 15 min</li><li>Acropolis · 75 min</li><li>Plaka · 80 min</li><li>Lake Vouliagmeni · 45 min</li><li>Kea island · 60 min ferry</li></ul></div></td>
     <td class="col-move"><div class="v-full"><ul class="mini "><li>No public transport at the resort (the official FAQ says so)</li><li>airport 45 km, 40-50 min by taxi (~EUR 60-70) or private transfer</li><li>taxi to the Acropolis 1h10-1h20, ~EUR 90-110 each way</li><li>the KTEL Sounio bus passes on the main road (~2h to Athens)</li><li>a rental car is needed for anything beyond the temple and Lavrio.</li></ul></div><div class="v-simple"><ul class="mini "><li>No public transport</li><li>Airport 45 min by taxi</li><li>Taxi to Acropolis 75 min</li><li>Rental car needed</li></ul></div></td>
   </tr></tbody></table></div>
-  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div>
+  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div></div>
 </section>
 <section class="panel" id="favorites" data-dest="favorites">
   <h2>★ Favorites</h2>
@@ -856,14 +865,16 @@ footer p { margin: 0 0 8px; }
   var NIGHTS_HE = false;
   var HIDDEN = {"one":"1 hidden row","many":"{n} hidden rows","show":"show","hide":"hide again"};
   function hiddenCount(n) { return n === 1 ? HIDDEN.one : HIDDEN.many.replace('{n}', n); }
-  var state = { fav: [], hidden: [], simple: false };
-  try { var saved = JSON.parse(localStorage.getItem(KEY) || '{}'); state.fav = saved.fav || []; state.hidden = saved.hidden || []; state.simple = !!saved.simple; } catch (e) {}
+  var NIGHTS_OPTS = ["4","6"];
+  var state = { fav: [], hidden: [], simple: false, nights: NIGHTS_OPTS[0] };
+  try { var saved = JSON.parse(localStorage.getItem(KEY) || '{}'); state.fav = saved.fav || []; state.hidden = saved.hidden || []; state.simple = !!saved.simple; if (NIGHTS_OPTS.indexOf(String(saved.nights)) !== -1) state.nights = String(saved.nights); } catch (e) {}
   try {
     var qs = new URLSearchParams(location.search);
     var fromUrl = (qs.get('fav') || '').split(',').filter(Boolean);
     fromUrl.forEach(function (id) { if (state.fav.indexOf(id) === -1 && document.getElementById(id)) state.fav.push(id); });
     if (qs.get('view') === 'simple') state.simple = true;
     if (qs.get('view') === 'full') state.simple = false;
+    if (NIGHTS_OPTS.indexOf(qs.get('nights')) !== -1) state.nights = qs.get('nights');
   } catch (e) {}
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
@@ -871,12 +882,19 @@ footer p { margin: 0 0 8px; }
       var url = new URL(location.href);
       if (state.fav.length) url.searchParams.set('fav', state.fav.join(',')); else url.searchParams.delete('fav');
       if (state.simple) url.searchParams.set('view', 'simple'); else url.searchParams.delete('view');
+      if (state.nights !== NIGHTS_OPTS[0]) url.searchParams.set('nights', state.nights); else url.searchParams.delete('nights');
       history.replaceState(null, '', url.pathname + url.search + location.hash);
     } catch (e) {}
   }
   var simpleBox = document.getElementById('simple-view');
-  function applyView() { document.body.classList.toggle('simple', state.simple); simpleBox.checked = state.simple; }
+  var nightButtons = document.querySelectorAll('.nights-switch button');
+  function applyView() {
+    document.body.classList.toggle('simple', state.simple); simpleBox.checked = state.simple;
+    NIGHTS_OPTS.forEach(function (n) { document.body.classList.toggle('nights-' + n, state.nights === n); });
+    nightButtons.forEach(function (b) { b.setAttribute('aria-checked', b.dataset.nights === state.nights ? 'true' : 'false'); });
+  }
   simpleBox.addEventListener('change', function () { state.simple = simpleBox.checked; save(); applyView(); });
+  nightButtons.forEach(function (b) { b.addEventListener('click', function () { state.nights = b.dataset.nights; save(); applyView(); render(); }); });
   applyView();
   document.documentElement.setAttribute('dir', 'ltr');
   document.documentElement.setAttribute('lang', 'en');
@@ -892,6 +910,7 @@ footer p { margin: 0 0 8px; }
   function fromHash() {
     var h = (location.hash || '#crete').slice(1);
     var dest = h.split('-')[0];
+    var nm = h.match(/-(\d)n$/); if (nm && NIGHTS_OPTS.indexOf(nm[1]) !== -1 && state.nights !== nm[1]) { state.nights = nm[1]; save(); applyView(); render(); }
     show(dest);
     if (h !== dest) { var el = document.getElementById(h); if (el) el.scrollIntoView({ block: 'start' }); }
   }
@@ -927,7 +946,7 @@ footer p { margin: 0 0 8px; }
     empty.hidden = state.fav.length > 0;
     var groups = {};
     state.fav.forEach(function (id) {
-      var tr = document.getElementById(id); if (!tr) return;
+      var tr = document.getElementById(id); if (!tr || tr.dataset.nights !== state.nights) return;
       var key = tr.dataset.dest + '|' + tr.dataset.nights;
       (groups[key] = groups[key] || []).push(tr);
     });

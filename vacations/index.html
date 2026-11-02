@@ -45,7 +45,12 @@ nav.tabs a[data-dest="rhodes"].active { color: var(--rhodes); border-color: var(
 nav.tabs a[data-dest="athens"].active { color: var(--athens); border-color: var(--athens); }
 nav.tabs a[data-dest="favorites"].active { color: var(--fav); border-color: var(--fav); }
 nav.tabs a.active { color: var(--ink); }
-.view-toggle { margin-inline-start: auto; display: flex; align-items: center; gap: 8px; padding: 8px 4px 10px; font-weight: 600; color: var(--muted); cursor: pointer; user-select: none; }
+.nights-switch { margin-inline-start: auto; display: inline-flex; align-self: center; border: 1px solid var(--line); border-radius: 999px; padding: 2px; background: var(--surface); margin-bottom: 4px; }
+.nights-switch button { font: inherit; font-size: 14px; font-weight: 600; color: var(--muted); background: none; border: 0; border-radius: 999px; padding: 5px 14px; cursor: pointer; }
+.nights-switch button[aria-checked="true"] { background: var(--accent); color: var(--accent-ink); }
+.nights-block { display: none; }
+body.nights-4 .nights-block[data-nights="4"], body.nights-6 .nights-block[data-nights="6"] { display: block; }
+.view-toggle { margin-inline-start: 16px; display: flex; align-items: center; gap: 8px; padding: 8px 4px 10px; font-weight: 600; color: var(--muted); cursor: pointer; user-select: none; }
 .view-toggle input { appearance: none; width: 36px; height: 20px; border-radius: 999px; background: var(--line); position: relative; cursor: pointer; margin: 0; transition: background .15s; }
 .view-toggle input::after { content: ''; position: absolute; top: 2px; inset-inline-start: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--surface); box-shadow: 0 1px 2px rgba(0,0,0,.25); transition: transform .15s; }
 .view-toggle input:checked { background: var(--accent); }
@@ -131,6 +136,7 @@ footer p { margin: 0 0 8px; }
 @media print {
   :root { --bg: #ffffff; --surface: #ffffff; --surface-2: #eef1ec; --ink: #16202b; --muted: #55606b; --line: #cfd5cc; --shadow: none; }
   .no-print, nav.tabs, .hidden-bar, details.dates { display: none !important; }
+  .nights-block { display: block !important; }
   .panel { display: block; break-before: page; }
   .panel:first-of-type { break-before: auto; }
   .panel[data-dest="favorites"] { display: none; }
@@ -164,6 +170,9 @@ footer p { margin: 0 0 8px; }
 <nav class="tabs" aria-label="יעדים">
   <a href="#crete" data-dest="crete">כרתים</a><a href="#rhodes" data-dest="rhodes">רודוס</a><a href="#athens" data-dest="athens">אתונה</a>
   <a href="#favorites" data-dest="favorites">★ מועדפים<span class="count" hidden>0</span></a>
+  <div class="nights-switch" role="radiogroup" aria-label="תאריכים וטיסות">
+    <button type="button" role="radio" aria-checked="false" data-nights="4">4 לילות</button><button type="button" role="radio" aria-checked="false" data-nights="6">6 לילות</button>
+  </div>
   <label class="view-toggle" title="נקודות קצרות בלבד, למבט ראשון. כבו כדי לראות את כל הפרטים."><input type="checkbox" id="simple-view"> <span>תצוגה פשוטה</span></label>
 </nav>
 <main>
@@ -178,7 +187,7 @@ footer p { margin: 0 0 8px; }
       <div><h3>לילדים: מחוץ למלון</h3><ul class="mini "><li>אקווריום כרתים (גורנס) – אקווריום ים-תיכוני גדול, 15 דק׳ מחרסוניסוס</li><li>פארק הדינוזאורים (גורנס) – פארק דינוזאורים אנימטרוניים ליד האקווריום</li><li>פארק המים Acqua Plus (חרסוניסוס) – פארק מגלשות גדול בגבעות מעל חרסוניסוס</li><li>Watercity (אנופוליס) – פארק מים בין הרקליון לחרסוניסוס</li><li>Labyrinth Park (חרסוניסוס) – מבוך ופארק פעילויות בנושא המינוטאורוס</li><li>Aquaworld (חרסוניסוס) – אקווריום קטן של זוחלים וחיות ים שחולצו</li></ul></div>
     </div>
   </div>
-  <h3 class="nights" id="crete-4n">4 לילות <span class="muted">· 5 בחירות</span></h3><div class="scroller"><table data-dest="crete" data-nights="4">
+  <div class="nights-block" data-nights="4"><h3 class="nights" id="crete-4n">4 לילות <span class="muted">· 5 בחירות</span></h3><div class="scroller"><table data-dest="crete" data-nights="4">
   <thead><tr>
     <th class="col-hotel">מלון</th><th class="col-dates">תאריכים וטיסות</th><th class="col-room">חדר ובסיס אירוח</th><th class="col-package">חבילה</th><th class="col-kids">לילדים במלון</th><th class="col-adults">בסביבה למבוגרים</th><th class="col-move">התניידות</th>
   </tr></thead>
@@ -283,7 +292,7 @@ footer p { margin: 0 0 8px; }
     <td class="col-adults"><div class="v-full"><ul class="mini "><li>ארמון קנוסוס - 13 ק״מ, 20-25 דק׳</li><li>המוזיאון הארכאולוגי של הרקליון, הנמל הוונציאני והעיר העתיקה - 8 ק״מ, 15 דק׳</li><li>הכפר פודלה ומוזיאון אל גרקו - 19 ק״מ, 20-25 דק׳</li><li>מפרץ אגיה פלגיה - 13 ק״מ, 15 דק׳</li><li>העיר העתיקה של רתימנו והפורטצה - 70 ק״מ, 55 דק׳</li><li>ארמון פיסטוס ומטאלה - 60-70 ק״מ, שעה</li><li>רמת לסיתי ומערת זאוס - 65 ק״מ, שעה ו-15 דק׳; סירות לספינלונגה מפלאקה - 80 ק״מ, שעה ו-10 דק׳</li></ul></div><div class="v-simple"><ul class="mini "><li>קנוסוס · 25 דק׳</li><li>הרקליון: מוזיאון ועיר עתיקה · 15 דק׳</li><li>פודלה ומוזיאון אל גרקו · 25 דק׳</li><li>אגיה פלגיה · 15 דק׳</li><li>רתימנו · 55 דק׳</li><li>פיסטוס ומטאלה · 60 דק׳</li></ul></div></td>
     <td class="col-move"><div class="v-full"><ul class="mini "><li>תחנת אוטובוס עירוני של הרקליון ממש מול המלון על כביש אמודארה (תדירות לא אומתה), כ-15 דקות למרכז הרקליון</li><li>שירות מוניות וסוכנות השכרת רכב סמוכה דרך המלון (בתשלום), דלפק טיולים לא אומת</li><li>שדה התעופה של הרקליון 10 ק״מ, 15 דק׳.</li></ul></div><div class="v-simple"><ul class="mini "><li>תחנת אוטובוס עירוני בפתח</li><li>15 דק׳ למרכז הרקליון</li><li>שדה תעופה 15 דק׳</li><li>מוניות והשכרת רכב דרך המלון</li></ul></div></td>
   </tr></tbody></table></div>
-  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div><h3 class="nights" id="crete-6n">6 לילות <span class="muted">· 5 בחירות</span></h3><div class="scroller"><table data-dest="crete" data-nights="6">
+  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div></div><div class="nights-block" data-nights="6"><h3 class="nights" id="crete-6n">6 לילות <span class="muted">· 5 בחירות</span></h3><div class="scroller"><table data-dest="crete" data-nights="6">
   <thead><tr>
     <th class="col-hotel">מלון</th><th class="col-dates">תאריכים וטיסות</th><th class="col-room">חדר ובסיס אירוח</th><th class="col-package">חבילה</th><th class="col-kids">לילדים במלון</th><th class="col-adults">בסביבה למבוגרים</th><th class="col-move">התניידות</th>
   </tr></thead>
@@ -388,7 +397,7 @@ footer p { margin: 0 0 8px; }
     <td class="col-adults"><div class="v-full"><ul class="mini "><li>ארמון קנוסוס - 13 ק״מ, 20-25 דק׳</li><li>המוזיאון הארכאולוגי של הרקליון, הנמל הוונציאני והעיר העתיקה - 8 ק״מ, 15 דק׳</li><li>הכפר פודלה ומוזיאון אל גרקו - 19 ק״מ, 20-25 דק׳</li><li>מפרץ אגיה פלגיה - 13 ק״מ, 15 דק׳</li><li>העיר העתיקה של רתימנו והפורטצה - 70 ק״מ, 55 דק׳</li><li>ארמון פיסטוס ומטאלה - 60-70 ק״מ, שעה</li><li>רמת לסיתי ומערת זאוס - 65 ק״מ, שעה ו-15 דק׳; סירות לספינלונגה מפלאקה - 80 ק״מ, שעה ו-10 דק׳</li></ul></div><div class="v-simple"><ul class="mini "><li>קנוסוס · 25 דק׳</li><li>הרקליון: מוזיאון ועיר עתיקה · 15 דק׳</li><li>פודלה ומוזיאון אל גרקו · 25 דק׳</li><li>אגיה פלגיה · 15 דק׳</li><li>רתימנו · 55 דק׳</li><li>פיסטוס ומטאלה · 60 דק׳</li></ul></div></td>
     <td class="col-move"><div class="v-full"><ul class="mini "><li>תחנת אוטובוס עירוני של הרקליון ממש מול המלון על כביש אמודארה (תדירות לא אומתה), כ-15 דקות למרכז הרקליון</li><li>שירות מוניות וסוכנות השכרת רכב סמוכה דרך המלון (בתשלום), דלפק טיולים לא אומת</li><li>שדה התעופה של הרקליון 10 ק״מ, 15 דק׳.</li></ul></div><div class="v-simple"><ul class="mini "><li>תחנת אוטובוס עירוני בפתח</li><li>15 דק׳ למרכז הרקליון</li><li>שדה תעופה 15 דק׳</li><li>מוניות והשכרת רכב דרך המלון</li></ul></div></td>
   </tr></tbody></table></div>
-  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div>
+  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div></div>
 </section>
 <section class="panel" id="rhodes" data-dest="rhodes">
   <div class="brief">
@@ -401,7 +410,7 @@ footer p { margin: 0 0 8px; }
       <div><h3>לילדים: מחוץ למלון</h3><ul class="mini "><li>פארק המים של פאלירקי – פארק המים הגדול ביוון, בפאלירקי</li><li>האקווריום של רודוס (התחנה ההידרוביולוגית) – אקווריום קטן משנות ה-30 בקצה העיר רודוס</li><li>עמק הפרפרים – עמק מוצל עם עשי נמר (Jersey tiger), העונה יוני-ספטמבר</li><li>מפרץ אנתוני קווין ולאדיקו – מפרצונים מוגנים לשחייה ליד פאלירקי</li><li>שבעת המעיינות – הליכה קצרה במנהרת מים אל אגם</li></ul></div>
     </div>
   </div>
-  <h3 class="nights" id="rhodes-4n">4 לילות <span class="muted">· 5 בחירות</span></h3><div class="scroller"><table data-dest="rhodes" data-nights="4">
+  <div class="nights-block" data-nights="4"><h3 class="nights" id="rhodes-4n">4 לילות <span class="muted">· 5 בחירות</span></h3><div class="scroller"><table data-dest="rhodes" data-nights="4">
   <thead><tr>
     <th class="col-hotel">מלון</th><th class="col-dates">תאריכים וטיסות</th><th class="col-room">חדר ובסיס אירוח</th><th class="col-package">חבילה</th><th class="col-kids">לילדים במלון</th><th class="col-adults">בסביבה למבוגרים</th><th class="col-move">התניידות</th>
   </tr></thead>
@@ -506,7 +515,7 @@ footer p { margin: 0 0 8px; }
     <td class="col-adults"><div class="v-full"><ul class="mini "><li>מנזר וחוף צמביקה – 5.8 ק״מ, 12 דקות (חוף סטגנה 9.5 ק״מ, 15 דקות דרך ארכנגלוס 8.2 ק״מ)</li><li>שבעת המעיינות – 6.3 ק״מ, 10 דקות</li><li>מעיינות קאליתאה – 20 ק״מ, 25 דקות</li><li>האקרופוליס והכפר לינדוס – 27 ק״מ, 35 דקות</li><li>מנזר פילרימוס והאקרופוליס של יאליסוס – 27 ק״מ, 35 דקות; העיר העתיקה של רודוס (ארמון המאסטר הגדול) – 28 ק״מ, 35 דקות</li><li>קאמירוס העתיקה – 35 ק״מ, 45 דקות</li><li>מצודת מונוליתוס – 58 ק״מ, שעה ו-20 דקות (יום שלם; פרסוניסי 69 ק״מ, שעה ו-30 דקות)</li></ul></div><div class="v-simple"><ul class="mini "><li>צמביקה · 12 דק׳</li><li>שבעת המעיינות · 10 דק׳</li><li>מעיינות קאליתאה · 25 דק׳</li><li>לינדוס · 35 דק׳</li><li>העיר העתיקה · 35 דק׳</li><li>קאמירוס העתיקה · 45 דק׳</li></ul></div></td>
     <td class="col-move"><div class="v-full"><ul class="mini "><li>קו Kolymbia Beach של KTEL (תחנות K1-K18 לאורך שדרת האקליפטוס</li><li>התחנה הקרובה למלון לא אומתה, מרכז קולימביה במרחק פחות מ-1 ק״מ) נוסע לעיר רודוס כ-14 פעמים ביום (07:45-20:15 בלוח הזמנים של אוקטובר 2026, בערך כל שעה, כ-50-60 דקות), 6 פעמים ללינדוס, 3 לחוף צמביקה ו-6 למעיינות קאליתאה</li><li>בתחנת צומת קולימביה על הכביש הראשי, 3 ק״מ מהמלון, עוברים 18 אוטובוסים ביום לעיר רודוס ו-15 ללינדוס. מוניות והסעות משדה התעופה ניתנות להזמנה</li><li>השכרת רכב דרך השותף Rodos Cars ועמוד הזמנת טיולים ופעילויות</li><li>נמל התעופה 32 ק״מ, כ-40 דקות (המלון אומר 25 ק״מ, 30 דקות</li><li>סוכני הנסיעות מדברים על כשעה)</li><li>העיר רודוס 28 ק״מ, 35 דקות.</li></ul></div><div class="v-simple"><ul class="mini "><li>אוטובוס לעיר רודוס בערך כל שעה</li><li>שדה תעופה 40 דק׳</li><li>השכרת רכב דרך שותף המלון</li><li>העיר רודוס 35 דק׳</li></ul></div></td>
   </tr></tbody></table></div>
-  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div><h3 class="nights" id="rhodes-6n">6 לילות <span class="muted">· 5 בחירות</span></h3><div class="scroller"><table data-dest="rhodes" data-nights="6">
+  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div></div><div class="nights-block" data-nights="6"><h3 class="nights" id="rhodes-6n">6 לילות <span class="muted">· 5 בחירות</span></h3><div class="scroller"><table data-dest="rhodes" data-nights="6">
   <thead><tr>
     <th class="col-hotel">מלון</th><th class="col-dates">תאריכים וטיסות</th><th class="col-room">חדר ובסיס אירוח</th><th class="col-package">חבילה</th><th class="col-kids">לילדים במלון</th><th class="col-adults">בסביבה למבוגרים</th><th class="col-move">התניידות</th>
   </tr></thead>
@@ -611,7 +620,7 @@ footer p { margin: 0 0 8px; }
     <td class="col-adults"><div class="v-full"><ul class="mini "><li>מנזר וחוף צמביקה – 5.8 ק״מ, 12 דקות (חוף סטגנה 9.5 ק״מ, 15 דקות דרך ארכנגלוס 8.2 ק״מ)</li><li>שבעת המעיינות – 6.3 ק״מ, 10 דקות</li><li>מעיינות קאליתאה – 20 ק״מ, 25 דקות</li><li>האקרופוליס והכפר לינדוס – 27 ק״מ, 35 דקות</li><li>מנזר פילרימוס והאקרופוליס של יאליסוס – 27 ק״מ, 35 דקות; העיר העתיקה של רודוס (ארמון המאסטר הגדול) – 28 ק״מ, 35 דקות</li><li>קאמירוס העתיקה – 35 ק״מ, 45 דקות</li><li>מצודת מונוליתוס – 58 ק״מ, שעה ו-20 דקות (יום שלם; פרסוניסי 69 ק״מ, שעה ו-30 דקות)</li></ul></div><div class="v-simple"><ul class="mini "><li>צמביקה · 12 דק׳</li><li>שבעת המעיינות · 10 דק׳</li><li>מעיינות קאליתאה · 25 דק׳</li><li>לינדוס · 35 דק׳</li><li>העיר העתיקה · 35 דק׳</li><li>קאמירוס העתיקה · 45 דק׳</li></ul></div></td>
     <td class="col-move"><div class="v-full"><ul class="mini "><li>קו Kolymbia Beach של KTEL (תחנות K1-K18 לאורך שדרת האקליפטוס</li><li>התחנה הקרובה למלון לא אומתה, מרכז קולימביה במרחק פחות מ-1 ק״מ) נוסע לעיר רודוס כ-14 פעמים ביום (07:45-20:15 בלוח הזמנים של אוקטובר 2026, בערך כל שעה, כ-50-60 דקות), 6 פעמים ללינדוס, 3 לחוף צמביקה ו-6 למעיינות קאליתאה</li><li>בתחנת צומת קולימביה על הכביש הראשי, 3 ק״מ מהמלון, עוברים 18 אוטובוסים ביום לעיר רודוס ו-15 ללינדוס. מוניות והסעות משדה התעופה ניתנות להזמנה</li><li>השכרת רכב דרך השותף Rodos Cars ועמוד הזמנת טיולים ופעילויות</li><li>נמל התעופה 32 ק״מ, כ-40 דקות (המלון אומר 25 ק״מ, 30 דקות</li><li>סוכני הנסיעות מדברים על כשעה)</li><li>העיר רודוס 28 ק״מ, 35 דקות.</li></ul></div><div class="v-simple"><ul class="mini "><li>אוטובוס לעיר רודוס בערך כל שעה</li><li>שדה תעופה 40 דק׳</li><li>השכרת רכב דרך שותף המלון</li><li>העיר רודוס 35 דק׳</li></ul></div></td>
   </tr></tbody></table></div>
-  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div>
+  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div></div>
 </section>
 <section class="panel" id="athens" data-dest="athens">
   <div class="brief">
@@ -624,7 +633,7 @@ footer p { margin: 0 0 8px; }
       <div><h3>לילדים: מחוץ למלון</h3><ul class="mini "><li>גן החיות אטיקה (ספאטה) – גן חיות גדול ליד שדה התעופה</li><li>Allou Fun Park – פארק שעשועים ברנטיס</li><li>Hellenic Cosmos ו-Tholos – מוזיאון היסטוריה אינטראקטיבי עם מסעות VR ליוון העתיקה</li><li>הפלנטריום של קרן Eugenides – פלנטריום דיגיטלי בפאליאו פאלירו</li><li>מרכז התרבות סטברוס ניארכוס – פארק, גני שעשועים, תעלה ואירועים חינם בקליתאה</li><li>חופי הריביירה (וולייאגמני, אסטיר, וארקיזה) – חופים מאורגנים עם מים רדודים</li><li>אגם וולייאגמני – אגם תרמי חמים עם כניסה רדודה</li></ul></div>
     </div>
   </div>
-  <h3 class="nights" id="athens-4n">4 לילות <span class="muted">· 5 בחירות</span></h3><div class="scroller"><table data-dest="athens" data-nights="4">
+  <div class="nights-block" data-nights="4"><h3 class="nights" id="athens-4n">4 לילות <span class="muted">· 5 בחירות</span></h3><div class="scroller"><table data-dest="athens" data-nights="4">
   <thead><tr>
     <th class="col-hotel">מלון</th><th class="col-dates">תאריכים וטיסות</th><th class="col-room">חדר ובסיס אירוח</th><th class="col-package">חבילה</th><th class="col-kids">לילדים במלון</th><th class="col-adults">בסביבה למבוגרים</th><th class="col-move">התניידות</th>
   </tr></thead>
@@ -729,7 +738,7 @@ footer p { margin: 0 0 8px; }
     <td class="col-adults"><div class="v-full"><ul class="mini "><li>מקדש פוסידון: כ-2-3 ק״מ, 5 דקות ברכב, נראה מרוב שטחי הריזורט; אין תחבורה ציבורית, להזמין מוניות מראש (אחרת 15-20 דקות עד שמגיעות)</li><li>לבריו: 9 ק״מ, 15 דקות (מוזיאון ארכיאולוגי ומוזיאון מינרלוגי, המרינה האולימפית, מעבורות לקאה); התיאטרון העתיק של תוריקוס 12 ק״מ</li><li>האקרופוליס ומוזיאון האקרופוליס: 70-77 ק״מ, 1:10-1:20 שעות ברכב; אוטובוס KTEL Sounio מהכביש הראשי לוקח כשעתיים עד מסוף Mavromateon</li><li>פלאקה, האגורה העתיקה והמוזיאון הארכיאולוגי הלאומי: אותה נסיעה של 1:10-1:30 שעות</li><li>אגם וולייאגמני וחופי וולייאגמני/אסטיר: כ-45 ק״מ, 45-50 דקות; חופי אנאביסוס ולגרנה 10-20 דקות</li><li>טיול יום לאי קאה (ציה): שעה במעבורת מלבריו</li></ul></div><div class="v-simple"><ul class="mini "><li>מקדש פוסידון · 5 דק׳</li><li>לבריו · 15 דק׳</li><li>אקרופוליס · 75 דק׳</li><li>פלאקה · 80 דק׳</li><li>אגם וולייאגמני · 45 דק׳</li><li>האי קאה · 60 דק׳ מעבורת</li></ul></div></td>
     <td class="col-move"><div class="v-full"><ul class="mini "><li>אין תחבורה ציבורית בריזורט (כך באתר הרשמי)</li><li>שדה התעופה 45 ק״מ, 40-50 דקות במונית (כ-60-70 יורו) או בהסעה פרטית</li><li>מונית לאקרופוליס 1:10-1:20 שעות, כ-90-110 יורו לכיוון</li><li>אוטובוס KTEL Sounio עובר בכביש הראשי (כשעתיים לאתונה)</li><li>לכל דבר מעבר למקדש וללבריו צריך רכב שכור.</li></ul></div><div class="v-simple"><ul class="mini "><li>אין תחבורה ציבורית</li><li>שדה תעופה 45 דק׳ במונית</li><li>מונית לאקרופוליס 75 דק׳</li><li>חובה רכב שכור</li></ul></div></td>
   </tr></tbody></table></div>
-  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div><h3 class="nights" id="athens-6n">6 לילות <span class="muted">· 5 בחירות</span></h3><div class="scroller"><table data-dest="athens" data-nights="6">
+  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div></div><div class="nights-block" data-nights="6"><h3 class="nights" id="athens-6n">6 לילות <span class="muted">· 5 בחירות</span></h3><div class="scroller"><table data-dest="athens" data-nights="6">
   <thead><tr>
     <th class="col-hotel">מלון</th><th class="col-dates">תאריכים וטיסות</th><th class="col-room">חדר ובסיס אירוח</th><th class="col-package">חבילה</th><th class="col-kids">לילדים במלון</th><th class="col-adults">בסביבה למבוגרים</th><th class="col-move">התניידות</th>
   </tr></thead>
@@ -834,7 +843,7 @@ footer p { margin: 0 0 8px; }
     <td class="col-adults"><div class="v-full"><ul class="mini "><li>מקדש פוסידון: כ-2-3 ק״מ, 5 דקות ברכב, נראה מרוב שטחי הריזורט; אין תחבורה ציבורית, להזמין מוניות מראש (אחרת 15-20 דקות עד שמגיעות)</li><li>לבריו: 9 ק״מ, 15 דקות (מוזיאון ארכיאולוגי ומוזיאון מינרלוגי, המרינה האולימפית, מעבורות לקאה); התיאטרון העתיק של תוריקוס 12 ק״מ</li><li>האקרופוליס ומוזיאון האקרופוליס: 70-77 ק״מ, 1:10-1:20 שעות ברכב; אוטובוס KTEL Sounio מהכביש הראשי לוקח כשעתיים עד מסוף Mavromateon</li><li>פלאקה, האגורה העתיקה והמוזיאון הארכיאולוגי הלאומי: אותה נסיעה של 1:10-1:30 שעות</li><li>אגם וולייאגמני וחופי וולייאגמני/אסטיר: כ-45 ק״מ, 45-50 דקות; חופי אנאביסוס ולגרנה 10-20 דקות</li><li>טיול יום לאי קאה (ציה): שעה במעבורת מלבריו</li></ul></div><div class="v-simple"><ul class="mini "><li>מקדש פוסידון · 5 דק׳</li><li>לבריו · 15 דק׳</li><li>אקרופוליס · 75 דק׳</li><li>פלאקה · 80 דק׳</li><li>אגם וולייאגמני · 45 דק׳</li><li>האי קאה · 60 דק׳ מעבורת</li></ul></div></td>
     <td class="col-move"><div class="v-full"><ul class="mini "><li>אין תחבורה ציבורית בריזורט (כך באתר הרשמי)</li><li>שדה התעופה 45 ק״מ, 40-50 דקות במונית (כ-60-70 יורו) או בהסעה פרטית</li><li>מונית לאקרופוליס 1:10-1:20 שעות, כ-90-110 יורו לכיוון</li><li>אוטובוס KTEL Sounio עובר בכביש הראשי (כשעתיים לאתונה)</li><li>לכל דבר מעבר למקדש וללבריו צריך רכב שכור.</li></ul></div><div class="v-simple"><ul class="mini "><li>אין תחבורה ציבורית</li><li>שדה תעופה 45 דק׳ במונית</li><li>מונית לאקרופוליס 75 דק׳</li><li>חובה רכב שכור</li></ul></div></td>
   </tr></tbody></table></div>
-  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div>
+  <div class="hidden-bar no-print" hidden><span class="hidden-count"></span> <button type="button" class="toggle-hidden"></button></div></div>
 </section>
 <section class="panel" id="favorites" data-dest="favorites">
   <h2>★ מועדפים</h2>
@@ -856,14 +865,16 @@ footer p { margin: 0 0 8px; }
   var NIGHTS_HE = true;
   var HIDDEN = {"one":"שורה אחת מוסתרת","many":"{n} שורות מוסתרות","show":"הצג","hide":"הסתר שוב"};
   function hiddenCount(n) { return n === 1 ? HIDDEN.one : HIDDEN.many.replace('{n}', n); }
-  var state = { fav: [], hidden: [], simple: false };
-  try { var saved = JSON.parse(localStorage.getItem(KEY) || '{}'); state.fav = saved.fav || []; state.hidden = saved.hidden || []; state.simple = !!saved.simple; } catch (e) {}
+  var NIGHTS_OPTS = ["4","6"];
+  var state = { fav: [], hidden: [], simple: false, nights: NIGHTS_OPTS[0] };
+  try { var saved = JSON.parse(localStorage.getItem(KEY) || '{}'); state.fav = saved.fav || []; state.hidden = saved.hidden || []; state.simple = !!saved.simple; if (NIGHTS_OPTS.indexOf(String(saved.nights)) !== -1) state.nights = String(saved.nights); } catch (e) {}
   try {
     var qs = new URLSearchParams(location.search);
     var fromUrl = (qs.get('fav') || '').split(',').filter(Boolean);
     fromUrl.forEach(function (id) { if (state.fav.indexOf(id) === -1 && document.getElementById(id)) state.fav.push(id); });
     if (qs.get('view') === 'simple') state.simple = true;
     if (qs.get('view') === 'full') state.simple = false;
+    if (NIGHTS_OPTS.indexOf(qs.get('nights')) !== -1) state.nights = qs.get('nights');
   } catch (e) {}
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
@@ -871,12 +882,19 @@ footer p { margin: 0 0 8px; }
       var url = new URL(location.href);
       if (state.fav.length) url.searchParams.set('fav', state.fav.join(',')); else url.searchParams.delete('fav');
       if (state.simple) url.searchParams.set('view', 'simple'); else url.searchParams.delete('view');
+      if (state.nights !== NIGHTS_OPTS[0]) url.searchParams.set('nights', state.nights); else url.searchParams.delete('nights');
       history.replaceState(null, '', url.pathname + url.search + location.hash);
     } catch (e) {}
   }
   var simpleBox = document.getElementById('simple-view');
-  function applyView() { document.body.classList.toggle('simple', state.simple); simpleBox.checked = state.simple; }
+  var nightButtons = document.querySelectorAll('.nights-switch button');
+  function applyView() {
+    document.body.classList.toggle('simple', state.simple); simpleBox.checked = state.simple;
+    NIGHTS_OPTS.forEach(function (n) { document.body.classList.toggle('nights-' + n, state.nights === n); });
+    nightButtons.forEach(function (b) { b.setAttribute('aria-checked', b.dataset.nights === state.nights ? 'true' : 'false'); });
+  }
   simpleBox.addEventListener('change', function () { state.simple = simpleBox.checked; save(); applyView(); });
+  nightButtons.forEach(function (b) { b.addEventListener('click', function () { state.nights = b.dataset.nights; save(); applyView(); render(); }); });
   applyView();
   document.documentElement.setAttribute('dir', 'rtl');
   document.documentElement.setAttribute('lang', 'he');
@@ -892,6 +910,7 @@ footer p { margin: 0 0 8px; }
   function fromHash() {
     var h = (location.hash || '#crete').slice(1);
     var dest = h.split('-')[0];
+    var nm = h.match(/-(\d)n$/); if (nm && NIGHTS_OPTS.indexOf(nm[1]) !== -1 && state.nights !== nm[1]) { state.nights = nm[1]; save(); applyView(); render(); }
     show(dest);
     if (h !== dest) { var el = document.getElementById(h); if (el) el.scrollIntoView({ block: 'start' }); }
   }
@@ -927,7 +946,7 @@ footer p { margin: 0 0 8px; }
     empty.hidden = state.fav.length > 0;
     var groups = {};
     state.fav.forEach(function (id) {
-      var tr = document.getElementById(id); if (!tr) return;
+      var tr = document.getElementById(id); if (!tr || tr.dataset.nights !== state.nights) return;
       var key = tr.dataset.dest + '|' + tr.dataset.nights;
       (groups[key] = groups[key] || []).push(tr);
     });
